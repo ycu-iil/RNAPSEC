@@ -20,7 +20,7 @@ clone github directory and install requiremental libraries.
 ``` 
 git clone git@github.com:ycu-iil/RNAPSEC.git
 git clone https://github.com/Bonidia/MathFeature.git 
-cd LabNote_chin
+cd RNAPSEC
 pip install requirement.txt
 ``` 
 -----
