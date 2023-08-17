@@ -18,7 +18,7 @@ source activate rnapsec
 ``` 
 clone github directory and install requiremental libraries.
 ``` 
-git clone git@github.com:ycu-iil/LabNote_chin.git
+git clone git@github.com:ycu-iil/RNAPSEC.git
 git clone https://github.com/Bonidia/MathFeature.git 
 cd LabNote_chin
 pip install requirement.txt
@@ -73,12 +73,13 @@ pip install requirement.txt
     python phase_diagram_logocv.py #phase diagrams
     python feature_importances_logocv.py #feature importances
     ``` 
-3. Repeated Group 10-Fold cross-validaton
+3. Repeated Group 10-Fold cross-validaton using RNAPSEC
     ``` 
     cd repeated_sgkf
-    python repeated_cv.py scoring.py
-    python phase_diagram.py 
+    python repeated_cv.py
+    python split_data_sgkf.py phase_diagram.py
     python feature_importance.py
+
     ``` 
 
 ## The model that predict LLPS conditions
@@ -94,7 +95,7 @@ python chain.py
 - preprocessing_rnapsec: preprocessing files for RNAPSEC;
 - predict_behavior_new_sequence: pre-trained model and running scripts to predict LLPS behavior;
 - predict_condition_new_sequence: pre-trained model and running scripts to predict experimental conditions for LLPS;
-- predict_behavior_cross_validation, predict_condition_cross_validation: scripts used in model evaluation;
+- predict_behavior_cross_validation, repeated_sgkf, predict_condition_cross_validation: scripts used in model evaluation;
 - requirements.txt: Dependencies;
 - README.md: Documentation
 
