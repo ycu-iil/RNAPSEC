@@ -1,0 +1,6 @@
+  
+file_name: "ml_rnapsec_aa"
+target_label: "mor_label"
+group_label: "aa_label"
+ignore_features: False # "-"あり
+mor_class: [0, 1,]

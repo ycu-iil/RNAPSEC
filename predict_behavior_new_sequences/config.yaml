@@ -1,0 +1,6 @@
+file_name: "ml_rnapsec_aa"
+input_data: "./input.csv"
+target_x: "protein_conc_log"
+target_y: "rna_conc_log"
+target_label: "mor_label"
+mor_class: [0, 1]

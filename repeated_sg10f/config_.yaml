@@ -1,0 +1,27 @@
+  
+#学習に用いるデータの保管ディレクトリ
+
+file_name: "ml_rnapsec_aa"
+#fold_strategy指定
+
+# fold_strategy: LeaveOneGroupOut
+# fold_strategy: GroupKFold
+# fold_strategy: StratifiedKFold
+# fold_strategy: KFold
+fold_strategy: StratifiedGroupKFold
+
+# val_fold_strategy: GroupKFold
+val_fold_strategy: StratifiedKFold
+# val_fold_strategy: KFold
+# val_fold_strategy: "None"
+
+n_splits: 10
+min_num: 0
+
+#特徴量・正解ラベル指定
+target_label: "mor_label"
+
+group_label: "aa_label"
+ignore_features: False 
+mor_class: [0, 1,]
+val_fold: 5

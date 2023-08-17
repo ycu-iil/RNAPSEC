@@ -1,0 +1,14 @@
+
+scikit-learn==1.2.2
+lightgbm==3.3.5
+matplotlib==3.7.1
+matplotlib-inline==0.1.6
+numpy==1.24.2
+optuna==3.1.0
+pandas==2.0.0
+PyYAML==6.0
+seaborn==0.12.2
+biopython==1.78
+pyEQL==0.5.2
+python-igraph==0.10.5
+openpyxl==3.1.2

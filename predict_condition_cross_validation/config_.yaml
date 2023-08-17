@@ -1,0 +1,56 @@
+  
+#学習に用いるデータの保管ディレクトリ
+data_dir: '../data/'
+# file_name: "prepro" #実験条件欠損値除去後
+# file_name: "chin_isin_prepro" #実験条件欠損値除去後
+# file_name: "chin" 
+# file_name: "chin_boundary"
+# file_name: "chin_protein_name"
+file_name: "chin_aa"
+data_dir_2: '../../data/'
+#fold_strategy指定
+
+# fold_strategy: LeaveOneGroupOut
+# fold_strategy: GroupKFold
+# fold_strategy: StratifiedKFold
+# fold_strategy: KFold
+fold_strategy: StratifiedGroupKFold
+
+# val_fold_strategy: GroupKFold
+val_fold_strategy: StratifiedKFold
+# val_fold_strategy: KFold
+# val_fold_strategy: "None"
+
+# max_num: 1108
+max_num: 1381
+# max_num: 223
+# max_num: 80
+# max_num: 50
+# max_num: 30
+# max_num: 20
+# max_num: 10
+# max_num: 5
+
+min_num: 0
+
+n_splits: 10
+
+random_state : 100
+#特徴量・正解ラベル指定
+target_label: "mor_label"
+# group_label: "group_label"
+# group_label: "protein_name_seq_label"
+group_label: "aa_label"
+ignore_features: False # "-"あり
+# ignore_features: ["group_label", "protein_name_seq_label"]
+
+#予測するクラス
+#mor_class: [0, 1, 2]
+mor_class: [0, 1,]
+
+early_stopping: 5
+val_fold: 5
+
+# model: "RandomForestClassifier" # "DecisionTreeClassifier", "KNeighborsClassifier", "SVC", "AdaBoostClassifier", "GaussianNB", "QuadraticDiscriminantAnalysis"
+# tuning
+opt: "false" #保存ファイル指定

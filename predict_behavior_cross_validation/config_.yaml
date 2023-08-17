@@ -1,0 +1,33 @@
+  
+#学習に用いるデータの保管ディレクトリ
+data_dir: '../data/'
+
+file_name: "ml_rnapsec_aa"
+data_dir_2: '../../data/'
+#fold_strategy指定
+
+fold_strategy: LeaveOneGroupOut
+# fold_strategy: GroupKFold
+# fold_strategy: StratifiedKFold
+# fold_strategy: KFold
+# fold_strategy: StratifiedGroupKFold
+
+# val_fold_strategy: GroupKFold
+val_fold_strategy: StratifiedKFold
+# val_fold_strategy: KFold
+# val_fold_strategy: "None"
+
+
+min_num: 0
+
+#特徴量・正解ラベル指定
+target_label: "mor_label"
+
+group_label: "aa_label"
+ignore_features: False # "-"あり
+# ignore_features: ["group_label", "protein_name_seq_label"]
+
+#予測するクラス
+#mor_class: [0, 1, 2]
+mor_class: [0, 1,]
+val_fold: 5
