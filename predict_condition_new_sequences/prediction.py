@@ -1,4 +1,4 @@
-#%%
+
 from sklearn.multioutput import ClassifierChain
 import numpy as np
 import lightgbm as lgb
@@ -28,7 +28,7 @@ y_prob = model.predict_proba(X)
 #溶質濃度
 
 
-#%%
+
 #クラスの番号→範囲
 def def_class(y_series_1, percentiles = [0, 20, 40, 60, 80]):
     bins = []
