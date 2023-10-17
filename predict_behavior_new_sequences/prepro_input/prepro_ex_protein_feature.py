@@ -1,4 +1,4 @@
-#%%
+
 import pandas as pd
 from Bio.Seq import Seq
 from Bio import SeqIO
@@ -6,9 +6,9 @@ from Bio.SeqRecord import SeqRecord
 from Bio.SeqUtils.ProtParam import molecular_weight
 import numpy as np
 import os
-# %%
+
 def read_file():
-    return pd.read_excel("./example.xlsx", engine = "openpyxl", index_col=False)
+    return pd.read_excel("../example.xlsx", engine = "openpyxl", index_col=False)
 df = read_file()
 os.makedirs("./prepro_results/", exist_ok=True)
 def prepro_conc(conc_value = "protein_conc"): #pH, temp, ionic_strength 済み
@@ -30,8 +30,6 @@ def calc_solute_conc(df):
 df= calc_solute_conc(df)
 assert df["protein_conc_log"].notna().shape[0] == df.shape[0], "error: protein concentration calcuration "
 assert df["rna_conc_log"].notna().shape[0] == df.shape[0], "error: rna concentration calcuration "
-
-#%%
 def convert_protein_sequence_to_features():
     from rnap_prepro_bf import seq2features
     df["aa"] = df.protein_sequence.str.replace("\n", "")
@@ -59,5 +57,3 @@ def output_rna_fasta():
     os.makedirs("./mf_result", exist_ok= True)
     return
 output_rna_fasta()
-
-# %%

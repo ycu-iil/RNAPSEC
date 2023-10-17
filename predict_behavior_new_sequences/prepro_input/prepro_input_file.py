@@ -31,7 +31,7 @@ def x_use_col(df):
        'rna_cv_ORF_length',"rna_conc_log", "protein_conc_log", "pH", "temp", "ionic_strength","aa_rna_label", "aa_label"]]
     return X
 def read_file():
-    return pd.read_excel("./example.xlsx", engine = "openpyxl", index_col=False)
+    return pd.read_excel("../example.xlsx", engine = "openpyxl", index_col=False)
 df_input = read_file()
 df_rna = pd.read_csv("./prepro_results/preprocessing_result_rna.csv").reset_index(drop = True)
 df_b = pd.read_csv("./prepro_results/preprocessing_result_aa.csv").reset_index(drop = True)
