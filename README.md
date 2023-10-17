@@ -21,7 +21,7 @@ Clone github directory and install requiremental libraries.
 git clone git@github.com:ycu-iil/RNAPSEC.git
 git clone https://github.com/Bonidia/MathFeature.git 
 cd RNAPSEC
-pip install requirement.txt
+pip install -r requirement.txt
 ``` 
 -----
 # Usage by example
@@ -32,7 +32,7 @@ pip install requirement.txt
 - The prediction result, LLPS probability, and a phase diagram that shows the predicted outcomes within a log scale range of ±0.5 for the input protein concentration and RNA concentration will be outputed to ``` /predict_behavior_new_sequences/```.
 
 ### Running: 
-1. Prepare the input file #
+1. Prepare the input file 
     
     ``` 
     cd ./predict_behavior_new_sequences
