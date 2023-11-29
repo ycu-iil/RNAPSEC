@@ -4,14 +4,10 @@ import datetime
 from sklearn import metrics
 import matplotlib.pyplot as plt
 import pandas as pd
-import glob
 import yaml
 import numpy as np
-import os
-import statistics
 import warnings
 warnings.simplefilter("ignore")
-os.makedirs("./evaluateion_result/", exist_ok=True)
 
 #交差検証とROC曲線、valデータ付き (分割方法はconfig_.yamlで指定）、パラメーター調整なし
 with open("./config_.yaml",'r')as f:
@@ -31,7 +27,7 @@ max_num= df_rnapsec.shape[0]
 
 cmap = plt.get_cmap("tab10")
 fig, ax = plt.subplots(figsize = (15, 15))
-models = ["AdaBoost","lightGBM", "Logistic Regression", "GaussianNB","KNN", "Random Forest",] 
+models = ["AdaBoost","LightGBM", "Logistic Regression", "GaussianNB","KNN", "Random Forest",] 
 total_score =[]
 scores = []
 for n, model_name in enumerate(["AdaBoostClassifier", "LGBMClassifier","LogisticRegression", "GaussianNB","KNeighborsClassifier",  "RandomForestClassifier",]):# 
@@ -52,7 +48,6 @@ for n, model_name in enumerate(["AdaBoostClassifier", "LGBMClassifier","Logistic
             y_pred=test['liquid']
             y_tests=test['actual'].astype("int")
             df_score = pd.DataFrame()
-
             df_score.loc[i,"fold"] = i
             df_score["model"] = model_name
             df_score["kf_state"] = kf_state
@@ -81,9 +76,7 @@ for n, model_name in enumerate(["AdaBoostClassifier", "LGBMClassifier","Logistic
                 
             else:
                 df_score["roc_auc"] = np.nan
-                df_score["pr_auc"] =np.nan
-                
-            
+                df_score["pr_auc"] =np.nan    
             scores.append(df_score)
         mean_tpr = np.mean(tprs, axis=0) #各シードでの平均
         mean_tprs.append(mean_tpr)
@@ -98,14 +91,14 @@ for n, model_name in enumerate(["AdaBoostClassifier", "LGBMClassifier","Logistic
     mean_fpr = np.linspace(0, 1, 100) #全シードの平均
     mean_tpr_model = np.mean(mean_tprs, axis=0)
     mean_tpr_model[-1] = 1.0
+    mean_total_auc = metrics.auc(mean_fpr, mean_tpr_model)
     std_auc = np.std(kf_state_aucs)
     std_tpr = np.std(tprs, axis=0)
     tprs_upper = np.minimum(mean_tpr_model + std_tpr, 1)
     tprs_lower = np.maximum(mean_tpr_model - std_tpr, 0)
     ax.plot(mean_fpr, mean_tpr_model, color = f"C{n}", #color=cmap(n)
-                label=f'{models[n]} (AUC=%0.2f$\pm$%.3f)' % (statistics.mean(kf_state_aucs), std_auc), 
+                label=f'{models[n]} (%0.2f$\pm$%.2f)' % (mean_total_auc, std_auc), 
                 lw=5, alpha=1)
-    
 
 plt.plot(np.linspace(1, 0, len(fpr)),np.linspace(1, 0, len(fpr)), linestyle = '--', color = "black")
 plt.plot([0,0,1],[0,1,1], linestyle='--', alpha = 0.6, color = "black")
@@ -119,21 +112,3 @@ plt.grid(True)
 fig.savefig("result_repeated_StratifiedGroupKFold/avg_roc_curve.png")
 plt.show()
 plt.close()
-# %%
-def calc_score():
-    df = pd.concat(scores)
-    model_score=[]
-    for model in df.model.unique():
-        ad = df[df.model ==model]
-        kf_score = []
-        for kf_state in ad.kf_state.unique():
-            ad_kf = ad[ad.kf_state == kf_state]
-            fold_mean = pd.DataFrame(ad_kf.drop(['fold', 'model', 'kf_state', "roc_auc"], axis = "columns").mean(axis = "index")).T
-            fold_mean["model"] = ad_kf.model
-            fold_mean["kf_state"] = kf_state
-            fold_mean["roc_auc"] = ad_kf.roc_auc.dropna().mean()
-            kf_score.append(fold_mean)
-        model_score.append(pd.concat(kf_score))
-    pd.concat(model_score).to_csv("./result_repeated_StratifiedGroupKFold/total_score.csv", index=False) 
-    return
-# %%
