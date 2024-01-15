@@ -1,6 +1,7 @@
-
+#%%
 import numpy as np
 import pandas as pd
+import lightgbm
 import yaml
 import pickle
 import matplotlib.ticker as ticker
@@ -54,17 +55,21 @@ def main():
         args = yaml.safe_load(f)
     target_col_x = args["target_x"]
     target_col_y = args["target_y"]
-    df_target = read_data(args["input_data"])
+    df_target = read_data(args["input_data"]).reset_index(drop=True)
     with open("./pretrained_model.pickle", 'rb') as web:
             model = pickle.load(web)
-    for aa_rna in df_target.aa_rna_label.unique():
-        df_test_0 = df_target[df_target.aa_rna_label == aa_rna]
+    # for aa_rna in df_target.aa_rna_label.unique():
+    #     df_test_0 = df_target[df_target.aa_rna_label == aa_rna]
+    for i in range(df_target.shape[0]):
+        df_test_0 = df_target[df_target.index == i]
         df_test = create_test_ex(df_test_0.drop(["aa_label", "aa_rna_label"], axis = "columns"))
         X = df_test.values
         
         df_test["preds"] = model.predict(X)
         df_test["proba"] = model.predict_proba(X)[:, 1]
-        plt_phase_diagram(df_test=df_test, n = aa_rna)
+        plt_phase_diagram(df_test=df_test, n = i)
 
 if __name__== "__main__":
     main()
+
+# %%
