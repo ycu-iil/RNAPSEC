@@ -40,6 +40,7 @@ pip install -r requirement.txt
     ``` 
 2. Predict input file and constructing phase diagram using pretrained model
     ``` 
+    cd ../
     python prediction.py
     ``` 
 ## Predicting experimental conditions using pretrained model
