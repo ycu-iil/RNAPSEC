@@ -35,7 +35,7 @@ pip install -r requirement.txt
 1. Prepare the input file 
     
     ``` 
-    cd ./predict_behavior_new_sequences
+    cd ./predict_behavior_new_sequences/prepro_input
     bash preprocessing.sh 
     ``` 
 2. Predict input file and constructing phase diagram using pretrained model
@@ -50,11 +50,12 @@ pip install -r requirement.txt
 ### Running:
 1.  Prepare a input file
     ``` 
-    cd ./predict_condition_new_sequences/
+    cd ./predict_condition_new_sequences/prepro_input
     bash preprocessing.sh
     ``` 
 2.  Predict the preprocessed input file
     ``` 
+    cd ../
     python prediction.py
     ``` 
 # Evaluation of the model performances through cross-validation
@@ -62,7 +63,7 @@ pip install -r requirement.txt
 1. Preprocessig of RNAPSEC for model developments
     ``` 
     cd preprocessing
-    bash preprocesssing_rnapsec.sh
+    bash preprocessing_rnapsec.sh
     cd ../
     ``` 
 ##  Evaluation of the model that predict LLPS behavior
