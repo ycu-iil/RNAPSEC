@@ -1,7 +1,6 @@
-#%%
+
 import numpy as np
 import pandas as pd
-import lightgbm
 import yaml
 import pickle
 import matplotlib.ticker as ticker
@@ -24,7 +23,7 @@ def main():
         df_add = df_add.rename(columns = {0:target_col_x, 1:target_col_y})
         for col in df.drop([target_col_x, target_col_y], axis = "columns").columns:
             df_add[col] = df[col].iloc[0]
-        return df_add
+        return df_add.loc[:, df_test_0.drop(["aa_label", "aa_rna_label"], axis = "columns").columns]
 
 
     def plt_phase_diagram(df_test, n):
@@ -55,21 +54,17 @@ def main():
         args = yaml.safe_load(f)
     target_col_x = args["target_x"]
     target_col_y = args["target_y"]
-    df_target = read_data(args["input_data"]).reset_index(drop=True)
+    df_target = read_data(args["input_data"])
     with open("./pretrained_model.pickle", 'rb') as web:
             model = pickle.load(web)
-    # for aa_rna in df_target.aa_rna_label.unique():
-    #     df_test_0 = df_target[df_target.aa_rna_label == aa_rna]
-    for i in range(df_target.shape[0]):
-        df_test_0 = df_target[df_target.index == i]
+    for aa_rna in df_target.aa_rna_label.unique():
+        df_test_0 = df_target[df_target.aa_rna_label == aa_rna]
         df_test = create_test_ex(df_test_0.drop(["aa_label", "aa_rna_label"], axis = "columns"))
         X = df_test.values
         
         df_test["preds"] = model.predict(X)
         df_test["proba"] = model.predict_proba(X)[:, 1]
-        plt_phase_diagram(df_test=df_test, n = i)
+        plt_phase_diagram(df_test=df_test, n = aa_rna)
 
 if __name__== "__main__":
     main()
-
-# %%
