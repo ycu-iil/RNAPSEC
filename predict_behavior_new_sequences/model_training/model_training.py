@@ -6,7 +6,8 @@ import yaml
 import pickle
 #model
 from sklearn.model_selection import StratifiedKFold, cross_val_score
-
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.tree import DecisionTreeClassifier
 import matplotlib  # <--ここを追加
 matplotlib.use('Agg')  # https://python-climbing.com/runtimeerror_main_thread_is_not_in_main_loop/
 from matplotlib import pyplot as plt
@@ -44,30 +45,20 @@ print(df[group_label].unique().shape)
 
 
 def objective(trial):
-    params = { #epoch 
-        'objective': 'binary',
-        'metric': 'binary_logloss',
-        'lambda_l1': trial.suggest_loguniform('lambda_l1', 1e-8, 10.0),
-        'lambda_l2': trial.suggest_loguniform('lambda_l2', 1e-8, 10.0),
-        'num_leaves': trial.suggest_int('num_leaves', 2, 256),
-        'feature_fraction': trial.suggest_uniform('feature_fraction', 0.4, 1.0),
-        'bagging_fraction': trial.suggest_uniform('bagging_fraction', 0.4, 1.0),
-        'bagging_freq': trial.suggest_int('bagging_freq', 1, 7),
-        'min_child_samples': trial.suggest_int('min_child_samples', 5, 100),
-        "random_state" : trial.suggest_categorical("random_state", range(1, 101, 10))
-    }
-    clf = lgb.LGBMClassifier(boosting_type='gbdt',
-                                        n_estimators=1000, **params)
-    clf.set_params(**params)
+    max_depth = trial.suggest_categorical("max_depth", [5, 6, 7, 8, 9, 10, None])
+    base_estimator = DecisionTreeClassifier(max_depth=max_depth)
+    learning_rate = trial.suggest_categorical("learning_rate", [0.5, 1.0, 1.5, 2.0, 2.5])
+    random_state = trial.suggest_categorical("random_state", range(1, 101, 10))
+    clf = AdaBoostClassifier(base_estimator=base_estimator, learning_rate=learning_rate, random_state=random_state)
     scores = cross_val_score(clf, X=X, y=y,cv = StratifiedKFold(n_splits=5, random_state=42, shuffle=True),scoring='roc_auc')
     return scores.mean()
 seed = 0
 study = optuna.create_study(direction='maximize',sampler=optuna.samplers.TPESampler(seed=seed))
 study.optimize(objective, n_trials=100)
 best_params = study.best_trial.params
-print(best_params)
-clf = lgb.LGBMClassifier()
-clf.set_params(**best_params)
+
+base_estimator = DecisionTreeClassifier(max_depth=best_params["max_depth"])
+clf = AdaBoostClassifier(base_estimator=base_estimator, learning_rate=best_params["learning_rate"], random_state=best_params["random_state"])
 model_opt = clf.fit(X, y)
 with open (f"../pretrained_model.pickle", mode = "wb") as f:
     pickle.dump(model_opt, f)
