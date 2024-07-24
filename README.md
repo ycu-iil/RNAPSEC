@@ -88,7 +88,7 @@ pip install -r requirement.txt
     python chain.py
     ``` 
 # Publication
-Chin, K.Y., Ishida, S., Sasaki, Y. et al. Predicting condensate formation of protein and RNA under various environmental conditions. *BMC Bioinformatics* 25, 143 (2024). https://doi.org/10.1186/s12859-024-05764-z
+Chin, K.Y., Ishida, S., Sasaki, Y., Terayama, K., Predicting condensate formation of protein and RNA under various environmental conditions. *BMC Bioinformatics* 25, 143 (2024). https://doi.org/10.1186/s12859-024-05764-z
 
 # List of files
 - data: RNAPSEC before and after preprocessing #originalとpreprocessing 
